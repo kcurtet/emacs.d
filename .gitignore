@@ -1,0 +1,8 @@
+/.cache/
+/backups/
+/eshell/
+/history
+/org-roam.db
+/places
+/straight/
+/transient/

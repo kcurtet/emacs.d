@@ -4,6 +4,12 @@
 ;; Lower threshold back to 8 MiB (default is 800kB)
 (add-hook 'emacs-startup-hook
           (lambda ()
-            (setq gc-cons-threshold (expt 2 23))))
+	    (message "Emacs loaded in %s with %d garbage collections."
+		     (format "%.2f seconds"
+			     (float-time
+			      (time-subtract after-init-time before-init-time)))
+		     gcs-done)
+	    (setq gc-cons-threshold (expt 2 23))))
 
 (setq package-enable-at-startup nil)
+(setq native-comp-async-report-warnings-errors nil)
