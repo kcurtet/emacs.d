@@ -107,6 +107,7 @@
 (use-package pinentry
   :defer t
   :init
+  (setq epa-pinentry-mode 'loopback)
   (pinentry-start))
 
 (use-package perspective
