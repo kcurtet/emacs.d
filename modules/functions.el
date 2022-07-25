@@ -24,5 +24,10 @@
 			filename
 			linenum-str))))
 
+(defun kc/browse-url-mpv (url &optional new-window)
+  (interactive (browse-url-interactive-arg "URL: "))
+  (message "Opening %s in mpv." url)
+  (start-process (format "*mpv* %s" url) nil "mpv" "--cache=yes" url))
+
 (provide 'functions)
 ;;; functions.el ends here

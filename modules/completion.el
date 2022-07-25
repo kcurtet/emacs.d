@@ -8,6 +8,7 @@
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   (corfu-auto t)                 ;; Enable auto completion
+  (corfu-quit-no-match 'separator)
   (corfu-separator ?\s)          ;; Orderless field separator
   ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
   ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
@@ -68,6 +69,15 @@
 (use-package vertico
   :straight (vertico :files (:defaults "extensions/*"))
   :init
+
+  ;; Use `consult-completion-in-region' if Vertico is enabled.
+  (add-hook 'minibuffer-setup-hook (lambda ()
+                                 (setq completion-in-region-function
+                                       (if vertico-mode
+                                           #'consult-completion-in-region
+                                         #'completion--in-region))))
+  
+  
   (vertico-mode)
 
   ;; Different scroll margin
@@ -90,23 +100,29 @@
   ;; Use a buffer with indices for imenu
   ;; and a flat (Ido-like) menu for M-x.
   (setq vertico-multiform-commands
-	'((consult-imenu buffer indexed)))
+        '((consult-imenu buffer indexed)))
 
   ;; Configure the display per completion category.
   ;; Use the grid display for files and a buffer
   ;; for the consult-grep commands.
   (setq vertico-multiform-categories
-	'((consult-grep buffer)))
+        '((consult-grep buffer)))
+  
   (define-key vertico-map "\M-V" #'vertico-multiform-vertical)
   (define-key vertico-map "\M-G" #'vertico-multiform-grid)
   (define-key vertico-map "\M-F" #'vertico-multiform-flat)
   (define-key vertico-map "\M-R" #'vertico-multiform-reverse)
   (define-key vertico-map "\M-U" #'vertico-multiform-unobtrusive))
 
-;; Persista history over Emacs restarts. Vertico sorts by history position.
-(use-package savehist
-  :init
-  (savehist-mode))
+
+;; Use Dabbrev with Corfu!
+(use-package dabbrev
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  ;; Other useful Dabbrev configurations.
+  :custom
+  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
 
 ;; Enable richer annotations using the Marginalia package
 (use-package marginalia
@@ -267,7 +283,7 @@
 ;; (use-package orderless
 ;;   :custom
 ;;   (completion-styles '(orderless basic))
-;;   (completion-category-overrides '((file (styles basic partial-completion)))))
+;;   (completion-category-overrides '((file (styles basic partial-completion)))))a
 
 ;; A few more useful configurations...
 (use-package emacs
@@ -379,3 +395,4 @@
 
 
 (provide 'completion.el)
+;; completion.el ends here

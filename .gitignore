@@ -6,3 +6,5 @@
 /places
 /straight/
 /transient/
+/elpy/
+*.el#

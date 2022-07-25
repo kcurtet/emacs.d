@@ -9,7 +9,8 @@
 			     (float-time
 			      (time-subtract after-init-time before-init-time)))
 		     gcs-done)
-	    (setq gc-cons-threshold (expt 2 23))))
+	    (setq gc-cons-threshold (expt 2 23)))
+	  100)
 
 (setq package-enable-at-startup nil)
 (setq native-comp-async-report-warnings-errors nil)

@@ -1,9 +1,14 @@
 (use-package all-the-icons)
 
-(use-package treemacs)
+(set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 120 :width 'normal)
+(set-face-attribute 'variable-pitch nil :font "CodeNewRoman Nerd Font" :height 130)
+
+(use-package treemacs
+  :defer t)
+
+(use-package modus-themes)
 
 (use-package doom-themes
-  :ensure t
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
@@ -21,6 +26,7 @@
   (doom-themes-org-config))
 
 (use-package doom-modeline
+  :after doom-themes
   :hook (after-init . doom-modeline-mode))
 
 (add-to-list 'default-frame-alist '(alpha 90 90))
