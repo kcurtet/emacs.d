@@ -104,6 +104,11 @@
 
 ;;; inbox
 
+(use-package pinentry
+  :defer t
+  :init
+  (pinentry-start))
+
 (use-package perspective
   :disabled t
   :bind (("C-x C-b" . persp-list-buffers)       
